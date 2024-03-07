@@ -5,87 +5,46 @@ import TableHeader from "./components/TableHeader";
 import StudentCard from "./components/StudentCard";
 
 import studentsData from "./assets/students.json";
+import AddStudent from "./components/AddStudent";
 
 function App() {
-  const [students, setStudents] = useState(studentsData);
+	const [students, setStudents] = useState(studentsData);
 
+	const handleSubmit = (event, newStudentData) => {
+		event.preventDefault();
 
-  return (
-    <div className="App pt-20">
-      <Navbar />
+		if (
+			students.some(
+				(student) =>
+					student.fullName === newStudentData.fullName ||
+					student.email === newStudentData.email,
+			)
+		) {
+			alert(
+				`we already have a student with the same email address, are you sure ${newStudentData.fullName} is a new student?`,
+			);
+			throw new Error("duplicate student");
+		}
+		setStudents([...students, newStudentData]);
+	};
 
-      {/* FORM */}
-      <form>
-        <span>Add a Student</span>
-        <div>
-          <label>
-            Full Name
-            <input name="fullName" type="text" placeholder="Full Name" />
-          </label>
+	return (
+		<div className="pt-20 App">
+			<Navbar />
 
-          <label>
-            Profile Image
-            <input name="image" type="url" placeholder="Profile Image" />
-          </label>
+			{/* FORM */}
+			<AddStudent onSubmit={handleSubmit} />
+			{/* FORM END */}
 
-          <label>
-            Phone
-            <input name="phone" type="tel" placeholder="Phone" />
-          </label>
+			{/* TABLE/LIST HEADER */}
+			<TableHeader />
 
-          <label>
-            Email
-            <input name="email" type="email" placeholder="Email" />
-          </label>
-        </div>
-
-        <div>
-          <label>
-            Program
-            <select name="program">
-              <option value="">-- None --</option>
-              <option value="Web Dev">Web Dev</option>
-              <option value="UXUI">UXUI</option>
-              <option value="Data">Data</option>
-            </select>
-          </label>
-
-          <label>
-            Graduation Year
-            <input
-              name="graduationYear"
-              type="number"
-              placeholder="Graduation Year"
-              minLength={4}
-              maxLength={4}
-              min={2023}
-              max={2030}
-            />
-          </label>
-
-          <label>
-            Graduated
-            <input name="graduated" type="checkbox" />
-          </label>
-
-          <button type="submit">Add Student</button>
-        </div>
-
-      </form>
-      {/* FORM END */}
-
-
-      {/* TABLE/LIST HEADER */}
-      <TableHeader />
-
-
-      {/* STUDENT LIST */}
-      {students &&
-        students.map((student) => {
-          return <StudentCard key={student.email} {...student} />;
-        })}
-    </div>
-  );
+			{/* STUDENT LIST */}
+			{students?.map((student) => {
+				return <StudentCard key={student.email} {...student} />;
+			})}
+		</div>
+	);
 }
 
 export default App;
