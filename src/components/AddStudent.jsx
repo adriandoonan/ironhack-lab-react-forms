@@ -15,6 +15,14 @@ const AddStudent = ({ onSubmit }) => {
 		initialNewStudentDataState,
 	);
 
+	const handleInputChange = (event) => {
+		const name = event.target.name;
+		setNewStudentData({
+			...newStudentData,
+			[name]: event.target.value ?? event.target.checked,
+		});
+	};
+
 	return (
 		<form
 			onSubmit={(event) => {
@@ -36,9 +44,7 @@ const AddStudent = ({ onSubmit }) => {
 						placeholder="Full Name"
 						value={newStudentData.fullName}
 						required
-						onChange={(e) =>
-							setNewStudentData({ ...newStudentData, fullName: e.target.value })
-						}
+						onChange={handleInputChange}
 					/>
 				</label>
 
@@ -49,9 +55,7 @@ const AddStudent = ({ onSubmit }) => {
 						type="url"
 						placeholder="Profile Image"
 						value={newStudentData.image}
-						onChange={(e) =>
-							setNewStudentData({ ...newStudentData, image: e.target.value })
-						}
+						onChange={handleInputChange}
 					/>
 				</label>
 
@@ -62,9 +66,7 @@ const AddStudent = ({ onSubmit }) => {
 						type="tel"
 						placeholder="Phone"
 						value={newStudentData.phone}
-						onChange={(e) =>
-							setNewStudentData({ ...newStudentData, phone: e.target.value })
-						}
+						onChange={handleInputChange}
 					/>
 				</label>
 
@@ -76,9 +78,7 @@ const AddStudent = ({ onSubmit }) => {
 						placeholder="Email"
 						value={newStudentData.email}
 						required
-						onChange={(e) =>
-							setNewStudentData({ ...newStudentData, email: e.target.value })
-						}
+						onChange={handleInputChange}
 					/>
 				</label>
 			</div>
@@ -90,9 +90,7 @@ const AddStudent = ({ onSubmit }) => {
 						name="program"
 						required
 						value={newStudentData.program}
-						onChange={(e) =>
-							setNewStudentData({ ...newStudentData, program: e.target.value })
-						}
+						onChange={handleInputChange}
 					>
 						<option value="" disabled>
 							-- None --
@@ -114,12 +112,7 @@ const AddStudent = ({ onSubmit }) => {
 						min={2023}
 						max={2030}
 						value={newStudentData.graduationYear}
-						onChange={(e) =>
-							setNewStudentData({
-								...newStudentData,
-								graduationYear: e.target.valueAsNumber,
-							})
-						}
+						onChange={handleInputChange}
 					/>
 				</label>
 
@@ -129,12 +122,7 @@ const AddStudent = ({ onSubmit }) => {
 						name="graduated"
 						type="checkbox"
 						checked={newStudentData.graduated}
-						onChange={(e) =>
-							setNewStudentData({
-								...newStudentData,
-								graduated: e.target.checked,
-							})
-						}
+						onChange={handleInputChange}
 					/>
 				</label>
 
